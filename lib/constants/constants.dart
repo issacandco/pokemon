@@ -9,4 +9,5 @@ class Constants {
   static const String keyFlee = 'flee';
   static const String keyReleased = 'released';
   static const String keyFavourite = 'favourite';
+  static const String keyFirstTime = 'first_time';
 }
