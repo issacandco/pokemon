@@ -199,6 +199,7 @@ class _DetailPageState extends BaseState<DetailPage> with BasicPage {
             style: AppTextStyle.baseTextStyle(
               fontWeightType: FontWeightType.semiBold,
               fontSize: AppSize.getTextSize(14),
+              color: AppColor.black,
             ),
           ),
         ),
@@ -259,7 +260,7 @@ class _DetailPageState extends BaseState<DetailPage> with BasicPage {
             fitType: FitType.fit,
             onPressed: () {
               BaseDialog.show(
-                message: 'confirm_release'.translateWithParams({'name': widget.pokemonDetail.name.toString().toCapitalized() ?? ''}),
+                message: 'confirm_release'.translateWithParams({'name': widget.pokemonDetail.name.toString().toCapitalized()}),
                 positiveAction: () async {
                   await _detailViewModel.releasePokemon(widget.pokemonDetail);
                   BaseDialog.show(
