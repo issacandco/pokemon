@@ -148,6 +148,7 @@ class _EncounterPageState extends BaseState<EncounterPage> with BasicPage {
             style: AppTextStyle.baseTextStyle(
               fontWeightType: FontWeightType.semiBold,
               fontSize: AppSize.getTextSize(14),
+              color: AppColor.black,
             ),
           ),
         ),

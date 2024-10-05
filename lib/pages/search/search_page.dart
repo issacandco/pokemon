@@ -111,7 +111,7 @@ class _SearchPageState extends BaseState<SearchPage> with BasicPage {
           );
         } else {
           return NoDataWidget(
-            image: AssetUtil.imageOpenedPokeball(size: AppSize.getScreenHeight(percent: 30)),
+            image: AssetUtil.imageOpenedPokeball(),
           );
         }
       });

@@ -182,6 +182,7 @@ class _LandingPageState extends BaseState<LandingPage> with BasicPage {
               style: AppTextStyle.baseTextStyle(
                 fontWeightType: FontWeightType.bold,
                 fontSize: AppSize.getTextSize(16),
+                color: AppColor.black,
               ),
             ),
           ),
@@ -201,7 +202,7 @@ class _LandingPageState extends BaseState<LandingPage> with BasicPage {
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: [
-                const Icon(Icons.wifi_off),
+                Icon(Icons.wifi_off, color: Theme.of(context).iconTheme.color),
                 SizedBox(width: AppSize.getSize(16)),
                 Text(
                   'no_internet_connection'.translate(),

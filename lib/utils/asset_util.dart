@@ -18,7 +18,7 @@ class AssetUtil {
   }
 
   static Widget imageOpenedPokeball({double? size, Color? color}) {
-    size ??= AppSize.getSize(48);
+    size ??= AppSize.getScreenHeight(percent: 30);
     return SvgPicture.asset(
       _imagePath('image_opened_pokeball.svg'),
       width: size,

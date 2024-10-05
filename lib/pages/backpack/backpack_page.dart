@@ -5,8 +5,10 @@ import '../../base/base_page.dart';
 import '../../constants/app_size.dart';
 import '../../constants/app_text_style.dart';
 import '../../models/pokemon_detail.dart';
+import '../../utils/asset_util.dart';
 import '../../utils/get_util.dart';
 import '../../widgets/base/base_app_bar.dart';
+import '../../widgets/no_data_widget.dart';
 import '../detail/detail_page.dart';
 import '../search/components/item_search_result.dart';
 import '../sort/sort_page.dart';
@@ -57,42 +59,46 @@ class _BackpackPageState extends BaseState<BackpackPage> with BasicPage {
         builder: (vm) {
           List<PokemonDetail> ownedPokemonList = vm.ownedPokemonList;
 
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '${'owned'.translate()} ${'pokemon'.translate()}',
-                style: AppTextStyle.baseTextStyle(
-                  fontWeightType: FontWeightType.bold,
-                  fontSize: AppSize.getTextSize(22),
+          if (ownedPokemonList.isEmpty) {
+            return NoDataWidget(image: AssetUtil.imageOpenedPokeball());
+          } else {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '${'owned'.translate()} ${'pokemon'.translate()}',
+                  style: AppTextStyle.baseTextStyle(
+                    fontWeightType: FontWeightType.bold,
+                    fontSize: AppSize.getTextSize(22),
+                  ),
                 ),
-              ),
-              ListView.separated(
-                padding: EdgeInsets.symmetric(vertical: AppSize.getSize(16)),
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return ItemSearchResult(
-                    pokemonDetail: ownedPokemonList[index],
-                    onTap: () async {
-                      dynamic result = await GetUtil.navigateToWithResult(DetailPage(
-                        pokemonDetail: ownedPokemonList[index],
-                        fromOwned: true,
-                      ));
+                ListView.separated(
+                  padding: EdgeInsets.symmetric(vertical: AppSize.getSize(16)),
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return ItemSearchResult(
+                      pokemonDetail: ownedPokemonList[index],
+                      onTap: () async {
+                        dynamic result = await GetUtil.navigateToWithResult(DetailPage(
+                          pokemonDetail: ownedPokemonList[index],
+                          fromOwned: true,
+                        ));
 
-                      if (result != null && result) {
-                        await _backpackViewModel.getOwnedPokemonList();
-                      }
-                    },
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return SizedBox(height: AppSize.getSize(24));
-                },
-                itemCount: ownedPokemonList.length,
-              ),
-            ],
-          );
+                        if (result != null && result) {
+                          await _backpackViewModel.getOwnedPokemonList();
+                        }
+                      },
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return SizedBox(height: AppSize.getSize(24));
+                  },
+                  itemCount: ownedPokemonList.length,
+                ),
+              ],
+            );
+          }
         },
       );
 }
