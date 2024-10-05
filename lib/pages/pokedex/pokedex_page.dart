@@ -1,11 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../base/base_page.dart';
 import '../../constants/app_size.dart';
+import '../../constants/app_text_style.dart';
 import '../../models/pokemon_detail.dart';
 import '../../models/pokemon_type.dart';
 import '../../utils/get_util.dart';
+import '../../utils/string_util.dart';
 import '../../widgets/base/base_app_bar.dart';
 import '../../widgets/base/base_loading.dart';
 import '../detail/detail_page.dart';
@@ -80,23 +81,44 @@ class _PokedexPageState extends BaseState<PokedexPage> with BasicPage {
         child: GetUtil.getX<PokeDexViewModel>(builder: (vm) {
           List<PokemonDetail> pokemonList = vm.pokemonList;
           Map<int, int> ownedPokemonMap = vm.ownedPokemonMap;
+          String filterText = vm.filterText.value;
 
-          return ListView.separated(
-            controller: _scrollController,
-            physics: const ClampingScrollPhysics(),
-            itemBuilder: (BuildContext context, int index) {
-              return ItemPokemon(
-                pokemonDetail: pokemonList[index],
-                ownCount: ownedPokemonMap[pokemonList[index].id] ?? 0,
-                onTap: () {
-                  GetUtil.navigateTo(DetailPage(pokemonDetail: pokemonList[index]));
-                },
-              );
-            },
-            separatorBuilder: (BuildContext context, int index) {
-              return SizedBox(height: AppSize.getSize(8));
-            },
-            itemCount: pokemonList.length,
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Visibility(
+                visible: filterText.isNotEmpty,
+                child: Container(
+                  padding: EdgeInsets.only(top: AppSize.getSize(8)),
+                  child: Text(
+                    '${'filter'.translate()}: ${filterText.toCapitalized()}',
+                    style: AppTextStyle.baseTextStyle(
+                      fontWeightType: FontWeightType.bold,
+                      fontSize: AppSize.getSize(18),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: ListView.separated(
+                  controller: _scrollController,
+                  physics: const ClampingScrollPhysics(),
+                  itemBuilder: (BuildContext context, int index) {
+                    return ItemPokemon(
+                      pokemonDetail: pokemonList[index],
+                      ownCount: ownedPokemonMap[pokemonList[index].id] ?? 0,
+                      onTap: () {
+                        GetUtil.navigateTo(DetailPage(pokemonDetail: pokemonList[index]));
+                      },
+                    );
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return SizedBox(height: AppSize.getSize(8));
+                  },
+                  itemCount: pokemonList.length,
+                ),
+              ),
+            ],
           );
         }),
       ),

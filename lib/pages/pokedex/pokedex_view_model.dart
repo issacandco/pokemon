@@ -13,6 +13,7 @@ import '../../models/pokemon_list_by_type_response.dart';
 import '../../models/pokemon_list_response.dart';
 import '../../models/pokemon_type.dart';
 import '../../services/pokemon_service.dart';
+import '../../utils/get_util.dart';
 
 class PokeDexViewModel extends BaseViewModel {
   final PokemonService _pokemonService = PokemonService();
@@ -25,6 +26,8 @@ class PokeDexViewModel extends BaseViewModel {
 
   bool filterTypeMode = false;
   bool isNotOwned = false;
+
+  RxString filterText = ''.obs;
 
   @override
   onInit() async {
@@ -84,6 +87,7 @@ class PokeDexViewModel extends BaseViewModel {
 
       isNotOwned = true;
       filterTypeMode = false;
+      filterText.value = 'not_owned'.translate();
 
       String url = nextPageUrlNotOwned ?? '${F.apiBaseUrl}/v2/pokemon';
 
@@ -121,6 +125,7 @@ class PokeDexViewModel extends BaseViewModel {
       nextPageUrl = null;
       isNotOwned = false;
       filterTypeMode = true;
+      filterText.value = type.type!.name!;
 
       var request = BaseRequestModel(pathParameters: {
         'query': type.type!.name,
@@ -152,6 +157,7 @@ class PokeDexViewModel extends BaseViewModel {
       nextPageUrl = null;
       isNotOwned = false;
       filterTypeMode = true;
+      filterText.value = 'owned'.translate();
 
       pokemonList.value = PokemonHelper.getOwnedPokemonList();
 
