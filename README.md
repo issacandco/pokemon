@@ -20,7 +20,7 @@ Before starting, ensure you have the following installed:
 
 1. **Clone the repository:**
    ```bash
-   git clone <repository-url>
+   git clone git@github.com:issacandco/pokemon.git
    ```
 2. **Navigate to the project directory:**
    ```bash
