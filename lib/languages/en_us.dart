@@ -61,8 +61,5 @@ Map<String, String> english = {
   'sort': 'Sort',
   'sort_by': 'Sort By',
   'name': 'Name',
-  'id': '
-  ID
-  '
-  ,
+  'id': 'ID',
 };
