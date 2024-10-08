@@ -7,10 +7,10 @@ import '../../constants/app_size.dart';
 import '../../constants/app_text_style.dart';
 import '../../helper/pokemon_helper.dart';
 import '../../models/pokemon_detail.dart';
+import '../../utils/date_time_util.dart';
 import '../../utils/get_util.dart';
 import '../../utils/string_util.dart';
 import '../../widgets/base/base_app_bar.dart';
-import '../../widgets/base/base_button.dart';
 import '../../widgets/base/base_dialog.dart';
 import '../../widgets/base/base_switch.dart';
 import 'components/item_stat.dart';
@@ -36,7 +36,38 @@ class _DetailPageState extends BaseState<DetailPage> with BasicPage {
 
   @override
   PreferredSizeWidget? appBar() {
-    return BaseAppBar();
+    return BaseAppBar(
+      appBarActions: [
+        Visibility(
+          visible: widget.fromOwned,
+          child: TextButton(
+              onPressed: () {
+                BaseDialog.show(
+                  message: 'confirm_release'.translateWithParams({'name': widget.pokemonDetail.name.toString().toCapitalized()}),
+                  positiveAction: () async {
+                    await _detailViewModel.releasePokemon(widget.pokemonDetail);
+                    BaseDialog.show(
+                      message: 'success_release'.translate(),
+                      positiveAction: () {
+                        GetUtil.backWithResult(true);
+                      },
+                    );
+                  },
+                  negativeAction: () {},
+                  positiveLabel: 'confirm'.translate(),
+                  negativeLabel: 'cancel'.translate(),
+                );
+              },
+              child: Text(
+                'release'.translate(),
+                style: AppTextStyle.baseTextStyle(
+                  fontWeightType: FontWeightType.bold,
+                  color: AppColor.primaryColor,
+                ),
+              )),
+        )
+      ],
+    );
   }
 
   @override
@@ -76,13 +107,13 @@ class _DetailPageState extends BaseState<DetailPage> with BasicPage {
                         _buildStats(),
                         SizedBox(height: AppSize.getSize(16)),
                         _buildShiny(),
+                        _buildCaughtAt(),
                       ],
                     ),
                   ),
                   _buildImage(),
                 ],
               ),
-              _buildReleaseButton(),
             ],
           ),
         ),
@@ -214,7 +245,7 @@ class _DetailPageState extends BaseState<DetailPage> with BasicPage {
                   fit: BoxFit.cover,
                   width: AppSize.getScreenWidth(percent: 60),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
-                  imageUrl: widget.pokemonDetail.shiny! ? widget.pokemonDetail.sprites?.other?.home?.frontShiny ?? '' : widget.pokemonDetail.sprites?.other?.home?.frontDefault ?? '',
+                  imageUrl: widget.pokemonDetail.shiny! ? widget.pokemonDetail.sprites?.other?.officialArtwork?.frontShiny ?? '' : widget.pokemonDetail.sprites?.other?.officialArtwork?.frontDefault ?? '',
                 )
               : GetUtil.getObx(
                   () => CachedNetworkImage(
@@ -252,30 +283,14 @@ class _DetailPageState extends BaseState<DetailPage> with BasicPage {
         ),
       );
 
-  _buildReleaseButton() => Visibility(
-        visible: widget.fromOwned,
-        child: Container(
-          margin: EdgeInsets.only(top: AppSize.getSize(24)),
-          child: BaseButton(
-            fitType: FitType.fit,
-            onPressed: () {
-              BaseDialog.show(
-                message: 'confirm_release'.translateWithParams({'name': widget.pokemonDetail.name.toString().toCapitalized()}),
-                positiveAction: () async {
-                  await _detailViewModel.releasePokemon(widget.pokemonDetail);
-                  BaseDialog.show(
-                    message: 'success_release'.translate(),
-                    positiveAction: () {
-                      GetUtil.backWithResult(true);
-                    },
-                  );
-                },
-                negativeAction: () {},
-                positiveLabel: 'confirm'.translate(),
-                negativeLabel: 'cancel'.translate(),
-              );
-            },
-            text: 'release'.translate(),
+  _buildCaughtAt() => Visibility(
+        visible: widget.pokemonDetail.caughtTime != null,
+        child: Text(
+          '${'caught_at'.translate()} ${widget.pokemonDetail.caughtTime?.dateFormat(format: 'dd-MMM-yyyy HH:mm:ss')}',
+          style: AppTextStyle.baseTextStyle(
+            fontWeightType: FontWeightType.semiBold,
+            fontSize: AppSize.getTextSize(12),
+            color: AppColor.gray,
           ),
         ),
       );

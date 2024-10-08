@@ -213,6 +213,11 @@ class _EncounterPageState extends BaseState<EncounterPage> with BasicPage {
       );
 
   _buildCatchModePanel() => Container(
+        padding: EdgeInsets.all(AppSize.getSize(16)),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.primaryContainer,
+          borderRadius: BorderRadius.circular(AppSize.getSize(16)),
+        ),
         child: GetUtil.getX<EncounterViewModel>(
           builder: (vm) {
             int fleeRate = vm.fleeRate.value;
@@ -220,21 +225,31 @@ class _EncounterPageState extends BaseState<EncounterPage> with BasicPage {
 
             return Column(
               children: [
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: IconButton(
-                    onPressed: () {
-                      _encounterViewModel.triggerCatchMode();
-                    },
-                    icon: const Icon(
-                      Icons.close,
-                      color: AppColor.black,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        'message_drag'.translate(),
+                        style: AppTextStyle.baseTextStyle(
+                          fontSize: AppSize.getTextSize(14),
+                        ),
+                      ),
                     ),
-                  ),
+                    IconButton(
+                      onPressed: () {
+                        _encounterViewModel.triggerCatchMode();
+                      },
+                      icon: const Icon(
+                        Icons.close,
+                        color: AppColor.black,
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(height: AppSize.getSize(16)),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Column(
                       children: [
@@ -243,6 +258,7 @@ class _EncounterPageState extends BaseState<EncounterPage> with BasicPage {
                           style: AppTextStyle.baseTextStyle(
                             fontWeightType: FontWeightType.semiBold,
                             fontSize: AppSize.getTextSize(16),
+                            color: AppColor.gray,
                           ),
                         ),
                         Text(
@@ -273,6 +289,7 @@ class _EncounterPageState extends BaseState<EncounterPage> with BasicPage {
                           style: AppTextStyle.baseTextStyle(
                             fontWeightType: FontWeightType.semiBold,
                             fontSize: AppSize.getTextSize(16),
+                            color: AppColor.gray,
                           ),
                         ),
                         Text(

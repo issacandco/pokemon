@@ -20,7 +20,7 @@ class ItemStat extends StatelessWidget {
       children: [
         Expanded(
           child: Container(
-            alignment: Alignment.centerRight,
+            alignment: Alignment.centerLeft,
             child: Text(
               stat.toCapitalized(),
               style: AppTextStyle.baseTextStyle(

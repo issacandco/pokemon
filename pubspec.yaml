@@ -60,12 +60,22 @@ dependencies:
   # Google Fonts library. Used for easily accessing and applying custom fonts from Google Fonts.
   google_fonts: ^6.2.1
 
+  # Image caching library. Used to efficiently load and cache images from the network to reduce loading times and save bandwidth.
   cached_network_image: ^3.4.0
+
+  # Annotation library for JSON serialization. Used for marking model classes to generate fromJson and toJson methods.
   json_annotation: ^4.9.0
+
+  # Shimmer effect library. Used to display loading placeholders with a shimmering animation while content is being loaded.
   shimmer: ^3.0.0
+
+  # SVG rendering library. Used to display scalable vector graphics (SVG) images in Flutter applications.
   flutter_svg: ^2.0.10+1
+
+  # Animation library. Used to add ready-made, customizable animations like fade, bounce, and slide to widgets.
   animate_do: ^3.3.4
-  just_audio: ^0.9.40
+
+  # Focus detection library. Used to detect when a widget gains or loses focus, helpful for resource management and visibility tracking.
   focus_detector_v2: ^3.1.0+1
 
 dev_dependencies:
